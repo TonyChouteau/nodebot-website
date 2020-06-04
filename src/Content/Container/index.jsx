@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Own
 
 import Table from '../Table/index.jsx';
+import Documentation from '../Documentation/index.jsx';
 
 //====================================================
 // Define
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
 		color: "white"
 	},
 	element: {
-		paddingTop: "50px",
+		paddingTop: "100px",
 		paddingBottom: "50px",
 	}
 });
@@ -42,15 +43,17 @@ function TableContainer(props) {
 	return (
 		<React.Fragment> 
 			<CssBaseline/>
-			<Container maxWidth="lg" className={classes.container}>
+			<Container maxWidth="lg" className={classes.container} key={props.pageId}>
 				<div className={classes.element}>
-					<Table pageId={props.pageId} destroyInterval={props.destroyInterval}></Table>
+					{props.pageId<3?
+						<Table pageId={props.pageId} destroyInterval={props.destroyInterval}></Table>:
+						<Documentation pageId={props.pageId}></Documentation>
+					}
 				</div>
 			</Container>
 		</React.Fragment>
 	);
 }
-
 
 //====================================================
 // Export

@@ -5,7 +5,7 @@
 //======================
 // Vendors
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +21,7 @@ import Switch from '@material-ui/core/Switch';
 //======================
 // Own
 
-import fetchWithTimeout from "../../Util/fetchTimeout.js";
+import fetchWithTimeout from "../../Util/FetchTimeout";
 
 //====================================================
 // Define
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 		},
 	},
 	row2: {
-		backgroundColor: "#AAAAAA",
+		backgroundColor: "#909090",
 		"&:hover": {
 			backgroundColor: "#707070"
 		},
@@ -68,6 +68,9 @@ const useStyles = makeStyles({
 	error: {
 		width: "100%",
 		color: "#c21b1b",
+	},
+	scrollable: {
+		overflow: "scroll",
 	}
 });
 
@@ -104,6 +107,25 @@ async function changeState(pageId, id, state){
 //====================================================
 // Sub Component
 //====================================================
+
+function mouthsTitleTable(classes){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[10], classes.whiteText}>
+				Mouth ID
+			</TableCell>
+			<TableCell className={classes[10], classes.whiteText} align="left">
+				Type
+			</TableCell>
+			<TableCell className={classes[70], classes.whiteText} align="left">
+				Link
+			</TableCell>
+			<TableCell className={classes[10], classes.whiteText} align="left">
+				Token
+			</TableCell>
+		</React.Fragment>
+	);
+}
 
 function brainsTitleTable(classes){
 	return (
@@ -142,7 +164,31 @@ function botsTitleTable(classes){
 
 //====================================================
 
-function brainsContentTable(classes, row){
+function mouthsContentTable(classes, row, id){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[10]}>
+				{row.id}
+			</TableCell>
+			<TableCell className={classes[10]} align="left">
+				{row.type}
+			</TableCell>
+			<TableCell className={classes[70]} align="left">
+				{row.token?row.token:"N/A"}
+			</TableCell>
+			<TableCell className={classes[10], classes.scrollable} align="left">
+				{row.link?
+					<a href={row.link}>
+						Click to add this mouth to a Discord server
+					</a>:
+					"N/A"
+				}
+			</TableCell>
+		</React.Fragment>
+	);
+}
+
+function brainsContentTable(classes, row, id){
 	return (
 		<React.Fragment>
 			<TableCell className={classes[20]} component="th" scope="row">
@@ -155,7 +201,7 @@ function brainsContentTable(classes, row){
 	);
 }
 
-function botsContentTable(classes, row, handleChange, state){
+function botsContentTable(classes, row, id, handleChange, state){
 	return (
 		<React.Fragment>
 			<TableCell className={classes[10]} component="th" scope="row">
@@ -232,13 +278,15 @@ function CustomizedTables(props) {
 		}
 	}
 
-	
-
 	const handleChange = (event) => {
 		//let status = state.data[event.target.id].status;
 		changeState(props.pageId, event.target.id, event.target.checked).then(() => {
-			state.refresh = true;
+			get();
 			setState({ ...state });
+		}).catch((error) => {
+			let st = state;
+			st.error = error;
+			setState(st);
 		})
 	};
 
@@ -249,13 +297,15 @@ function CustomizedTables(props) {
 					<TableRow className={classes.title}>
 						{props.pageId===0 && botsTitleTable(classes)}
 						{props.pageId===1 && brainsTitleTable(classes)}
+						{props.pageId===2 && mouthsTitleTable(classes)}
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{state.data.map((row, id) => (
 						<TableRow key={row.id} className={id%2?classes.row1:classes.row2}>
-							{props.pageId===0 && botsContentTable(classes, row, handleChange, state)}
-							{props.pageId===1 && brainsContentTable(classes, row)}
+							{props.pageId===0 && botsContentTable(classes, row, id, handleChange, state)}
+							{props.pageId===1 && brainsContentTable(classes, row, id)}
+							{props.pageId===2 && mouthsContentTable(classes, row, id)}
 						</TableRow>
 					))}
 				</TableBody>

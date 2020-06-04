@@ -55,7 +55,7 @@ function Menu(props){
 	}
 
 	return (
-		<AppBar position="static" className={classes.bar}>
+		<AppBar position="fixed" className={classes.bar}>
 			<Toolbar>
 				<IconButton onClick={handleClick} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
 					<MenuIcon />

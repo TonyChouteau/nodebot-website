@@ -45,6 +45,21 @@ function BotsList(props){
 	);
 }
 
+for (let i=0; i<20; i++){
+	let message = "Hello";
+	fetch("http://localhost:3001/bot/1", {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+		},
+		body: ("message="+message)
+	})
+	.then(function(res){ return res.json(); })
+	.then(function(data){
+		console.log("Ally : "+data);
+	})
+}
+
 function BrainsList(props){
 
 	return (
@@ -60,9 +75,39 @@ function MouthsList(props){
 	return (
 		<div>
 			<Menu title="Mouths List"></Menu>
-			<Container pageId={2}></Container>
+			<Container pageId={2} destroyInterval={props.destroyInterval}></Container>
 		</div>
 	);
+}
+
+function DocProject() {
+	
+	return (
+		<div>
+			<Menu title="Project Documentation"></Menu>
+			<Container pageId={3}></Container>
+		</div>
+	)
+}
+
+function DocApi() {
+	
+	return (
+		<div>
+			<Menu title="API Documentation"></Menu>
+			<Container pageId={4}></Container>
+		</div>
+	)
+}
+
+function DocDiscord() {
+	
+	return (
+		<div>
+			<Menu title="Discord Documentation"></Menu>
+			<Container pageId={5}></Container>
+		</div>
+	)
 }
 
 //====================================================
@@ -81,7 +126,8 @@ function App() {
 	const url = history.location.pathname;
 
 	let redirectJSX;
-	if ( !( url.includes("/brains") || url.includes("/mouths") ) )
+	if ( !( url.includes("/brains") || url.includes("/mouths")
+		|| url.includes("/doc-project") || url.includes("/doc-api") || url.includes("/doc-discord") ) )
 	{
 		redirectJSX = <Redirect to="/bots"/>;
 	}
@@ -104,6 +150,10 @@ function App() {
 					<Route path="/bots" component={() => <BotsList destroyInterval={destroyInterval}></BotsList>} />
 					<Route path="/brains" component={() => <BrainsList destroyInterval={destroyInterval}></BrainsList>} />
 					<Route path="/mouths" component={() => <MouthsList destroyInterval={destroyInterval}></MouthsList>} />
+
+					<Route path="/doc-project" component={() => <DocProject></DocProject>} />
+					<Route path="/doc-api" component={() => <DocApi></DocApi>} />
+					<Route path="/doc-discord" component={() => <DocDiscord></DocDiscord>} />
 				</Switch>
 			</Router>
 		</div>

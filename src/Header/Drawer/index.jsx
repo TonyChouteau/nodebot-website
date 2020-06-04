@@ -73,14 +73,14 @@ const useStyles = makeStyles({
 
 const items = {
 	"main" : [
-		["Bots", <AndroidIcon></AndroidIcon>], 
-		["Brains", <BrainIcon></BrainIcon>], 
-		["Mouths", <MouthIcon></MouthIcon>]
+		["Bots", <AndroidIcon></AndroidIcon>, "/bots"],
+		["Brains", <BrainIcon></BrainIcon>, "/brains"],
+		["Mouths", <MouthIcon></MouthIcon>, "/mouths"]
 	],
 	"doc" : [ 
-		["Project", <DescriptionIcon></DescriptionIcon>], 
-		["API", <ExtensionIcon></ExtensionIcon>],
-		["Discord", <DiscordIcon></DiscordIcon>]
+		["Project", <DescriptionIcon></DescriptionIcon>, "/doc-project"],
+		["API", <ExtensionIcon></ExtensionIcon>, "/doc-api"],
+		["Discord", <DiscordIcon></DiscordIcon>, "/doc-discord"]
 	]
 } 
 
@@ -110,7 +110,7 @@ function AppDrawer(props, ref) {
 				}
 			>
 				{items.main.map((elt, i) => (
-					<Link className={classes.link} to={"/"+elt[0]} key={i}>
+					<Link className={classes.link} to={elt[2]} key={i}>
 						<ListItem button key={elt[0]}>
 							<ListItemIcon className={classes.icon}>
 								{elt[1]}
@@ -129,12 +129,14 @@ function AppDrawer(props, ref) {
 				}
 			>
 				{items.doc.map((elt, i) => (
-					<ListItem button key={elt[0]}>
-						<ListItemIcon className={classes.documentation}>
-							{elt[1]}
-						</ListItemIcon>
-						<ListItemText className={classes.documentation} primary={elt[0]} />
-					</ListItem>
+					<Link className={classes.link} to={elt[2]} key={i}>
+						<ListItem button key={elt[0]}>
+							<ListItemIcon className={classes.documentation}>
+								{elt[1]}
+							</ListItemIcon>
+							<ListItemText className={classes.documentation} primary={elt[0]} />
+						</ListItem>
+					</Link>
 				))}
 			</List>
 		</div>
