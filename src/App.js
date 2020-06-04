@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-import { Router, Route, Redirect } from "react-router-dom";
+import { Router, Route, Redirect, Switch, withRouter } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
 //======================
@@ -29,12 +29,18 @@ import Container from './Content/Container/index.jsx';
 // Functions
 //====================================================
 
+//
+
+//====================================================
+// Routes
+//====================================================
+
 function BotsList(props){
 
 	return (
 		<div>
 			<Menu title="Bots List"></Menu>
-			<Container></Container>
+			<Container pageId={0} destroyInterval={props.destroyInterval}></Container>
 		</div>
 	);
 }
@@ -44,6 +50,7 @@ function BrainsList(props){
 	return (
 		<div>
 			<Menu title="Brains List"></Menu>
+			<Container pageId={1} destroyInterval={props.destroyInterval}></Container>
 		</div>
 	);
 }
@@ -53,6 +60,7 @@ function MouthsList(props){
 	return (
 		<div>
 			<Menu title="Mouths List"></Menu>
+			<Container pageId={2}></Container>
 		</div>
 	);
 }
@@ -78,13 +86,25 @@ function App() {
 		redirectJSX = <Redirect to="/bots"/>;
 	}
 
+	let lastLastInterval;
+	let lastInterval;
+	function destroyInterval(id){
+		if(lastLastInterval){
+			clearInterval(lastLastInterval);
+		}
+		lastLastInterval = lastInterval
+		lastInterval = id;
+	}
+
 	return (
 		<div className="App">
 			<Router history={history}>
 				{redirectJSX}
-				<Route path="/bots" component={() => <BotsList></BotsList>} />
-				<Route path="/brains" component={() => <BrainsList></BrainsList>} />
-				<Route path="/mouths" component={() => <MouthsList></MouthsList>} />
+				<Switch>
+					<Route path="/bots" component={() => <BotsList destroyInterval={destroyInterval}></BotsList>} />
+					<Route path="/brains" component={() => <BrainsList destroyInterval={destroyInterval}></BrainsList>} />
+					<Route path="/mouths" component={() => <MouthsList destroyInterval={destroyInterval}></MouthsList>} />
+				</Switch>
 			</Router>
 		</div>
 	);
@@ -95,6 +115,7 @@ function App() {
 //====================================================
 
 export default App;
+//export default withRouter(App);
 
 //====================================================
 // End

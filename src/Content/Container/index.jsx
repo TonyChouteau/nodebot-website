@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 // Component
 //====================================================
 
-function TableContainer() {
+function TableContainer(props) {
 	const classes = useStyles();
 
 	return (
@@ -44,7 +44,7 @@ function TableContainer() {
 			<CssBaseline/>
 			<Container maxWidth="lg" className={classes.container}>
 				<div className={classes.element}>
-					<Table></Table>
+					<Table pageId={props.pageId} destroyInterval={props.destroyInterval}></Table>
 				</div>
 			</Container>
 		</React.Fragment>

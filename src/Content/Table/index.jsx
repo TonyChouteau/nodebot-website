@@ -5,7 +5,7 @@
 //======================
 // Vendors
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +21,7 @@ import Switch from '@material-ui/core/Switch';
 //======================
 // Own
 
-import fetchWithTimeout from "./fetchTimeout.js";
+import fetchWithTimeout from "../../Util/fetchTimeout.js";
 
 //====================================================
 // Define
@@ -31,13 +31,23 @@ const useStyles = makeStyles({
 	table: {
 		minWidth: 700,
 	},
-	title: {
-		backgroundColor: "#707070",
+	whiteText: {
+		color: "white",
 	},
-	row: {
-		backgroundColor: "#757575",
+	title: {
+		backgroundColor: "#000000",
+		color: "white"
+	},
+	row1: {
+		backgroundColor: "#A5A5A5",
 		"&:hover": {
-			backgroundColor: "#757575"
+			backgroundColor: "#707070"
+		},
+	},
+	row2: {
+		backgroundColor: "#AAAAAA",
+		"&:hover": {
+			backgroundColor: "#707070"
 		},
 	},
 	10: {
@@ -61,20 +71,28 @@ const useStyles = makeStyles({
 	}
 });
 
+const URL = [
+	["bots", "bot"],
+	["brains", "brain"],
+	["mouths", "mouth"],
+]
+
 //====================================================
 // Functions
 //====================================================
 
-async function loadData(){
-	return await fetchWithTimeout("http://localhost:3001/api/bots", {
+async function loadData(pageId){
+	return await fetchWithTimeout("http://localhost:3001/api/"+URL[pageId][0], {
+		method: "GET",
 		headers: [
-			['Content-Type', 'application/json'],]
-	}, 2000)
+			['Content-Type', 'application/json'],
+		]
+	});
 }
 
-async function changeState(id, state){
+async function changeState(pageId, id, state){
 	let payload = "state="+(state?"true":"false");
-	return await fetch("http://localhost:3001/api/bot/"+id, {
+	return await fetchWithTimeout("http://localhost:3001/api/"+URL[pageId][1]+"/"+id, {
 		method: "PATCH",
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -84,37 +102,118 @@ async function changeState(id, state){
 }
 
 //====================================================
+// Sub Component
+//====================================================
+
+function brainsTitleTable(classes){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[20], classes.whiteText}>
+				Brain ID
+			</TableCell>
+			<TableCell className={classes[80], classes.whiteText} align="left">
+				Description
+			</TableCell>
+		</React.Fragment>
+	);
+}
+
+function botsTitleTable(classes){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[10], classes.whiteText}>
+				Bot ID
+			</TableCell>
+			<TableCell className={classes[26], classes.whiteText} align="left">
+				Name
+			</TableCell>
+			<TableCell className={classes[26], classes.whiteText} align="left">
+				Mouths
+			</TableCell>
+			<TableCell className={classes[26], classes.whiteText} align="left">
+				Brains
+			</TableCell>
+			<TableCell className={classes[10], classes.whiteText} align="center">
+				Status
+			</TableCell>
+		</React.Fragment>
+	);
+}
+
+//====================================================
+
+function brainsContentTable(classes, row){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[20]} component="th" scope="row">
+				{row}
+			</TableCell>
+			<TableCell className={classes[10]} align="left">
+				Description unavailable
+			</TableCell>
+		</React.Fragment>
+	);
+}
+
+function botsContentTable(classes, row, handleChange, state){
+	return (
+		<React.Fragment>
+			<TableCell className={classes[10]} component="th" scope="row">
+				{row.id}
+			</TableCell>
+			<TableCell className={classes[26]} align="left">
+				{row.name}
+			</TableCell>
+			<TableCell className={classes[26]} align="left">
+				{row.mouths.join(",")}
+			</TableCell>
+			<TableCell className={classes[26]} align="left">
+				{row.brains.join(",")}
+			</TableCell>
+			<TableCell className={classes[10]} align="center">
+				<Switch id={row.id.toString()} checked={row.state} onChange={handleChange} disabled={state.error?true:false}></Switch>
+			</TableCell>
+		</React.Fragment>
+	);
+}
+
+//====================================================
 // Component
 //====================================================
 
-function CustomizedTables() {
+function CustomizedTables(props) {
 	const classes = useStyles();
 
 	const [state, setState] = React.useState({
-		data : [],
-		refresh : true,
-		error: undefined,
-		lastInterval: undefined
+		"refresh" : true,
+		"lastInterval": undefined,
+		"data": [],
+		"error": undefined,
 	});
 
 	function get() {
-		loadData()
+		loadData(props.pageId)
 		.then(function(res){
 			return res.json(); 
 		})
 		.then(function(data){
-			state.error = undefined;
 			let list = [];
 			for (let id in data){
 				let bot = data[id];
-				bot.id = id;
+				if (props.pageId != 1){
+					bot.id = id;
+				}
 				list.push(bot);
 			}
-			state.data = list;
-			setState({ ...state });
+			//console.log(data);
+			let st = state;
+			st.error = undefined;
+			st.data = list;
+			setState(st);
 		}).catch((error) => {
-			state.error = error;
-			setState({ ...state });
+			let st = state;
+			st.error = error;
+			setState(st);
 		})
 	}
 
@@ -123,18 +222,21 @@ function CustomizedTables() {
 		
 		get();
 
-		if (state.lastInterval){
-			clearInterval(state.lastInterval);
+		if (!state.lastInterval){
+			state.lastInterval = setInterval(()=>{
+				get();
+				setState({ ...state });
+			}, 2000);
+			props.destroyInterval(state.lastInterval);
+			setState({ ...state });
 		}
-		let x = Math.random();
-		state.lastInterval = setInterval(()=>{
-			get();
-		}, 2000);
 	}
+
+	
 
 	const handleChange = (event) => {
 		//let status = state.data[event.target.id].status;
-		changeState(event.target.id, event.target.checked).then(() => {
+		changeState(props.pageId, event.target.id, event.target.checked).then(() => {
 			state.refresh = true;
 			setState({ ...state });
 		})
@@ -145,62 +247,30 @@ function CustomizedTables() {
 			<Table className={classes.table} aria-label="simple table">
 				<TableHead>
 					<TableRow className={classes.title}>
-						<TableCell className={classes[10]}>
-							Bot ID
-						</TableCell>
-						<TableCell className={classes[26]} align="left">
-							Name
-						</TableCell>
-						<TableCell className={classes[26]} align="left">
-							Mouths
-						</TableCell>
-						<TableCell className={classes[26]} align="left">
-							Brains
-						</TableCell>
-						<TableCell className={classes[10]} align="center">
-							Status
-						</TableCell>
+						{props.pageId===0 && botsTitleTable(classes)}
+						{props.pageId===1 && brainsTitleTable(classes)}
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{state.data.map((row) => (
-						<TableRow key={row.id}>
-							<TableCell className={classes[10]} component="th" scope="row">
-								{row.id}
-							</TableCell>
-							<TableCell className={classes[26]} align="left">
-								{row.name}
-							</TableCell>
-							<TableCell className={classes[26]} align="left">
-								{row.mouths.join(",")}
-							</TableCell>
-							<TableCell className={classes[26]} align="left">
-								{row.brains.join(",")}
-							</TableCell>
-							<TableCell className={classes[10]} align="center">
-								<Switch id={row.id.toString()} checked={row.state} onChange={handleChange} disabled={state.error?true:false}></Switch>
-							</TableCell>
+					{state.data.map((row, id) => (
+						<TableRow key={row.id} className={id%2?classes.row1:classes.row2}>
+							{props.pageId===0 && botsContentTable(classes, row, handleChange, state)}
+							{props.pageId===1 && brainsContentTable(classes, row)}
 						</TableRow>
 					))}
 				</TableBody>
 			</Table>
 			<Table>
-				{ function(){
-					if (state.error){
-						return (
-							<TableFooter>
-								<TableRow>
-									<TableCell className={classes[100]} align="center">
-										<Typography variant="h6" className={classes.error}>
-											{state.error.toString()}
-										</Typography>
-									</TableCell>
-								</TableRow>
-							</TableFooter>
-						)
-					} else {
-						return <TableFooter></TableFooter>
-					}}()
+				{ state.error && 
+					<TableFooter>
+						<TableRow>
+							<TableCell className={classes[100]} align="center">
+								<Typography variant="h6" className={classes.error}>
+									{state.error.toString()}
+								</Typography>
+							</TableCell>
+						</TableRow>
+					</TableFooter>
 				}
 			</Table>
 		</TableContainer>
