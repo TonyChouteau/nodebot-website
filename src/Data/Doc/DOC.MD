@@ -7,7 +7,7 @@
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/mouths" | python -m json.tool
+curl -X GET "http://vps.tonychouteau.fr:8090/api/mouths" | python -m json.tool
 ```
 
 Response :
@@ -20,7 +20,7 @@ Json containing all mouths
 ## POST
 
 ```bash
-curl -X POST "http://localhost:3000/api/mouths" -F "file=@./tests/mouth_web.json" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/mouths" -F "file=@./tests/mouth_web.json" && echo
 ```
 
 Response :
@@ -44,7 +44,7 @@ Json explaining the error
 
 Example :
 ```bash
-curl -X PUT "http://localhost:3000/api/mouths" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/mouths" && echo
 ```
 
 ---
@@ -56,7 +56,7 @@ curl -X PUT "http://localhost:3000/api/mouths" && echo
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/mouth/1" && echo
+curl -X GET "http://vps.tonychouteau.fr:8090/api/mouth/1" && echo
 ```
 
 Response :
@@ -74,7 +74,7 @@ Json explaining the error
 ## PUT
 
 ```bash
-curl -X PUT "http://localhost:3000/api/mouth/1" -F "file=@./tests/mouth_web.json" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/mouth/1" -F "file=@./tests/mouth_web.json" && echo
 ```
 
 Response :
@@ -102,7 +102,7 @@ Json explaining the error
 ## PATCH
 
 ```bash
-curl -X PATCH --data-urlencode "type=discord" --data-urlencode "token=discord-token" "http://localhost:3000/api/mouth/6" && echo
+curl -X PATCH --data-urlencode "type=discord" --data-urlencode "token=discord-token" "http://vps.tonychouteau.fr:8090/api/mouth/6" && echo
 ``` 
 Body fields :
 * type : "discord" *or* "web"
@@ -129,7 +129,7 @@ Json explaining the error
 ## DELETE
 
 ```bash
-curl -X DELETE "http://localhost:3000/api/mouth/1" && echo
+curl -X DELETE "http://vps.tonychouteau.fr:8090/api/mouth/1" && echo
 ```
 
 Response :
@@ -154,7 +154,7 @@ Json explaining the error
 Example :
 
 ```bash
-curl -X POST "http://localhost:3000/api/mouth/1" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/mouth/1" && echo
 ```
 ---
 
@@ -167,7 +167,7 @@ curl -X POST "http://localhost:3000/api/mouth/1" && echo
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/brains" | python -m json.tool
+curl -X GET "http://vps.tonychouteau.fr:8090/api/brains" | python -m json.tool
 ```
 
 Response :
@@ -180,7 +180,7 @@ Json containing all brains
 ## POST
 
 ```bash
-curl -X POST "http://localhost:3000/api/brains" -F "file=@./tests/brain.rive" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/brains" -F "file=@./tests/brain.rive" && echo
 ```
 
 Response :
@@ -205,7 +205,7 @@ Json explaining the error
 
 Example :
 ```bash
-curl -X PUT "http://localhost:3000/api/brains" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/brains" && echo
 ```
 
 ---
@@ -217,7 +217,7 @@ curl -X PUT "http://localhost:3000/api/brains" && echo
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/brain/1" && echo
+curl -X GET "http://vps.tonychouteau.fr:8090/api/brain/1" && echo
 ```
 
 Response :
@@ -235,7 +235,7 @@ Json explaining the error
 ## PUT
 
 ```bash
-curl -X PUT "http://localhost:3000/api/brain/2" -F "file=@./tests/brain.rive" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/brain/2" -F "file=@./tests/brain.rive" && echo
 ```
 
 Response :
@@ -263,7 +263,7 @@ Json explaining the error
 ## DELETE
 
 ```bash
-curl -X DELETE "http://localhost:3000/api/brain/1" && echo
+curl -X DELETE "http://vps.tonychouteau.fr:8090/api/brain/1" && echo
 ```
 
 Response :
@@ -288,7 +288,7 @@ Json explaining the error
 Example :
 
 ```bash
-curl -X POST "http://localhost:3000/api/brain/2" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/brain/2" && echo
 ```
 
 ---
@@ -302,7 +302,7 @@ curl -X POST "http://localhost:3000/api/brain/2" && echo
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/bots" | python -m json.tool
+curl -X GET "http://vps.tonychouteau.fr:8090/api/bots" | python -m json.tool
 ```
 
 Response :
@@ -315,7 +315,7 @@ Json containing all bots
 ## POST
 
 ```bash
-curl -X POST "http://localhost:3000/api/bots" -F "file=@./tests/bot.json" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/bots" -F "file=@./tests/bot.json" && echo
 ```
 
 Response :
@@ -340,7 +340,7 @@ Json explaining the error
 
 Example :
 ```bash
-curl -X PUT "http://localhost:3000/api/bots" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/bots" && echo
 ```
 ---
 
@@ -351,7 +351,7 @@ curl -X PUT "http://localhost:3000/api/bots" && echo
 ## GET
 
 ```bash
-curl -X GET "http://localhost:3000/api/bot/1" && echo
+curl -X GET "http://vps.tonychouteau.fr:8090/api/bot/1" && echo
 ```
 
 Response :
@@ -369,7 +369,7 @@ Json explaining the error
 ## PUT
 
 ```bash
-curl -X PUT "http://localhost:3000/api/brain/2" -F "file=@./tests/brain.rive" && echo
+curl -X PUT "http://vps.tonychouteau.fr:8090/api/brain/2" -F "file=@./tests/brain.rive" && echo
 ```
 
 Response :
@@ -397,7 +397,7 @@ Json explaining the error
 ## DELETE
 
 ```bash
-curl -X DELETE "http://localhost:3000/api/brain/1" && echo
+curl -X DELETE "http://vps.tonychouteau.fr:8090/api/brain/1" && echo
 ```
 
 Response :
@@ -422,7 +422,7 @@ Json explaining the error
 Example :
 
 ```bash
-curl -X POST "http://localhost:3000/api/brain/1" && echo
+curl -X POST "http://vps.tonychouteau.fr:8090/api/brain/1" && echo
 ```
 ---
 # Data
@@ -434,7 +434,7 @@ curl -X POST "http://localhost:3000/api/brain/1" && echo
 
 Example :
 ```bash
-curl -X GET "http://localhost:3000/api/bot/1/data" | python -m json.tool
+curl -X GET "http://vps.tonychouteau.fr:8090/api/bot/1/data" | python -m json.tool
 ```
 
 Response:

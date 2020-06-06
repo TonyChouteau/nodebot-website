@@ -246,7 +246,7 @@ function CustomizedTables(props) {
 			let list = [];
 			for (let id in data){
 				let bot = data[id];
-				if (props.pageId != 1){
+				if (props.pageId !== 1){
 					bot.id = id;
 				}
 				list.push(bot);

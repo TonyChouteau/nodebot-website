@@ -25,15 +25,13 @@ import "./index.css";
 //loadLanguages(['bash']);
 
 const useStyles = makeStyles({
-	markdown: {
+	markdown: props => ({
 		textAlign: "left",
+		paddingLeft: props.padding,
+		paddingRight: props.padding,
 		"&h1": {
 			textAlign: "center",
 		}
-	},
-	padding: props => ({
-		paddingLeft: props.padding,
-		paddingRight: props.padding,
 	}),
 	code: {
 		backgroundColor: "#393939", 
@@ -83,7 +81,7 @@ async function getMarkdown(id) {
 //====================================================
 
 function Documentation(props) {
-	
+
 	const padding = {
 		padding : isMobile?"0":"100px",
 	}
@@ -142,7 +140,7 @@ function Documentation(props) {
 		<React.Fragment>
 			<Markdown 
 				source={data} 
-				className={[classes.markdown, classes.padding].join("")}
+				className={classes.markdown}
 				escapeHtml={false}
 				//transformLinkUri={LinkUri}
 				//transformImageUri={ImageUri}
