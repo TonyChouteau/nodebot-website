@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-import { Router, Route, Redirect, Switch, withRouter } from "react-router-dom";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
 //======================
@@ -47,7 +47,7 @@ function BotsList(props){
 
 for (let i=0; i<20; i++){
 	let message = "Hello";
-	fetch("http://localhost:3000/bot/1", {
+	fetch("http://vps.tonychouteau.fr:8090/bot/1", {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'

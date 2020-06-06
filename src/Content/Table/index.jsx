@@ -85,7 +85,7 @@ const URL = [
 //====================================================
 
 async function loadData(pageId){
-	return await fetchWithTimeout("http://localhost:3000/api/"+URL[pageId][0], {
+	return await fetchWithTimeout("http://vps.tonychouteau.fr:8090/api/"+URL[pageId][0], {
 		method: "GET",
 		headers: [
 			['Content-Type', 'application/json'],
@@ -95,7 +95,7 @@ async function loadData(pageId){
 
 async function changeState(pageId, id, state){
 	let payload = "state="+(state?"true":"false");
-	return await fetchWithTimeout("http://localhost:3000/api/"+URL[pageId][1]+"/"+id, {
+	return await fetchWithTimeout("http://vps.tonychouteau.fr:8090/api/"+URL[pageId][1]+"/"+id, {
 		method: "PATCH",
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -111,16 +111,16 @@ async function changeState(pageId, id, state){
 function mouthsTitleTable(classes){
 	return (
 		<React.Fragment>
-			<TableCell className={classes[10], classes.whiteText}>
+			<TableCell className={[classes[10], classes.whiteText].join("")}>
 				Mouth ID
 			</TableCell>
-			<TableCell className={classes[10], classes.whiteText} align="left">
+			<TableCell className={[classes[10], classes.whiteText].join("")} align="left">
 				Type
 			</TableCell>
-			<TableCell className={classes[70], classes.whiteText} align="left">
+			<TableCell className={[classes[70], classes.whiteText].join("")} align="left">
 				Link
 			</TableCell>
-			<TableCell className={classes[10], classes.whiteText} align="left">
+			<TableCell className={[classes[10], classes.whiteText].join("")} align="left">
 				Token
 			</TableCell>
 		</React.Fragment>
@@ -130,10 +130,10 @@ function mouthsTitleTable(classes){
 function brainsTitleTable(classes){
 	return (
 		<React.Fragment>
-			<TableCell className={classes[20], classes.whiteText}>
+			<TableCell className={[classes[20], classes.whiteText].join("")}>
 				Brain ID
 			</TableCell>
-			<TableCell className={classes[80], classes.whiteText} align="left">
+			<TableCell className={[classes[80], classes.whiteText].join("")} align="left">
 				Description
 			</TableCell>
 		</React.Fragment>
@@ -143,19 +143,19 @@ function brainsTitleTable(classes){
 function botsTitleTable(classes){
 	return (
 		<React.Fragment>
-			<TableCell className={classes[10], classes.whiteText}>
+			<TableCell className={[classes[10], classes.whiteText].join("")}>
 				Bot ID
 			</TableCell>
-			<TableCell className={classes[26], classes.whiteText} align="left">
+			<TableCell className={[classes[26], classes.whiteText].join("")} align="left">
 				Name
 			</TableCell>
-			<TableCell className={classes[26], classes.whiteText} align="left">
+			<TableCell className={[classes[26], classes.whiteText].join("")} align="left">
 				Mouths
 			</TableCell>
-			<TableCell className={classes[26], classes.whiteText} align="left">
+			<TableCell className={[classes[26], classes.whiteText].join("")} align="left">
 				Brains
 			</TableCell>
-			<TableCell className={classes[10], classes.whiteText} align="center">
+			<TableCell className={[classes[10], classes.whiteText].join("")} align="center">
 				Status
 			</TableCell>
 		</React.Fragment>
@@ -176,7 +176,7 @@ function mouthsContentTable(classes, row, id){
 			<TableCell className={classes[70]} align="left">
 				{row.token?row.token:"N/A"}
 			</TableCell>
-			<TableCell className={classes[10], classes.scrollable} align="left">
+			<TableCell className={[classes[10], classes.scrollable].join("")} align="left">
 				{row.link?
 					<a href={row.link}>
 						Click to add this mouth to a Discord server

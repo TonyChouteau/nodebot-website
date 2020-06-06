@@ -8,8 +8,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Markdown from 'react-markdown';
+import {isMobile} from 'react-device-detect';
 import Prism from 'prismjs';
-//import loadLanguages from 'prismjs/components/';
+
 import "prismjs/components/prism-bash";
 
 //======================
@@ -26,12 +27,14 @@ import "./index.css";
 const useStyles = makeStyles({
 	markdown: {
 		textAlign: "left",
-		paddingLeft: "100px",
-		paddingRight: "100px",
 		"&h1": {
 			textAlign: "center",
 		}
 	},
+	padding: props => ({
+		paddingLeft: props.padding,
+		paddingRight: props.padding,
+	}),
 	code: {
 		backgroundColor: "#393939", 
 	}
@@ -81,7 +84,11 @@ async function getMarkdown(id) {
 
 function Documentation(props) {
 	
-	const classes = useStyles();
+	const padding = {
+		padding : isMobile?"0":"100px",
+	}
+
+	const classes = useStyles(padding);
 
 	const [data, setData] = React.useState("");
 	const [refresh, setRefresh] = React.useState(true);
@@ -98,7 +105,7 @@ function Documentation(props) {
 	
 	function renderImage(props){
 		return (
-			<img src={IMAGES[props.src]}></img>
+			<img src={IMAGES[props.src]} alt={props.src}></img>
 		);
 	}
 
@@ -135,7 +142,7 @@ function Documentation(props) {
 		<React.Fragment>
 			<Markdown 
 				source={data} 
-				className={classes.markdown}
+				className={[classes.markdown, classes.padding].join("")}
 				escapeHtml={false}
 				//transformLinkUri={LinkUri}
 				//transformImageUri={ImageUri}

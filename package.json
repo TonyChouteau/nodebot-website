@@ -11,13 +11,14 @@
     "material-table": "^1.59.0",
     "prismjs": "^1.20.0",
     "react": "^16.13.1",
+    "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "set PORT=3001 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
