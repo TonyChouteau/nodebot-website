@@ -85,7 +85,7 @@ const URL = [
 //====================================================
 
 async function loadData(pageId){
-	return await fetchWithTimeout("http://localhost:3001/api/"+URL[pageId][0], {
+	return await fetchWithTimeout("http://localhost:3000/api/"+URL[pageId][0], {
 		method: "GET",
 		headers: [
 			['Content-Type', 'application/json'],
@@ -95,7 +95,7 @@ async function loadData(pageId){
 
 async function changeState(pageId, id, state){
 	let payload = "state="+(state?"true":"false");
-	return await fetchWithTimeout("http://localhost:3001/api/"+URL[pageId][1]+"/"+id, {
+	return await fetchWithTimeout("http://localhost:3000/api/"+URL[pageId][1]+"/"+id, {
 		method: "PATCH",
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'

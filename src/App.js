@@ -47,7 +47,7 @@ function BotsList(props){
 
 for (let i=0; i<20; i++){
 	let message = "Hello";
-	fetch("http://localhost:3001/bot/1", {
+	fetch("http://localhost:3000/bot/1", {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -147,13 +147,13 @@ function App() {
 			<Router history={history}>
 				{redirectJSX}
 				<Switch>
+					<Route path="/doc-discord" component={() => <DocDiscord></DocDiscord>} />
 					<Route path="/bots" component={() => <BotsList destroyInterval={destroyInterval}></BotsList>} />
 					<Route path="/brains" component={() => <BrainsList destroyInterval={destroyInterval}></BrainsList>} />
 					<Route path="/mouths" component={() => <MouthsList destroyInterval={destroyInterval}></MouthsList>} />
 
 					<Route path="/doc-project" component={() => <DocProject></DocProject>} />
 					<Route path="/doc-api" component={() => <DocApi></DocApi>} />
-					<Route path="/doc-discord" component={() => <DocDiscord></DocDiscord>} />
 				</Switch>
 			</Router>
 		</div>
